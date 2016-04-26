@@ -1,0 +1,115 @@
+<%= render '/elements/banner'  %>
+<div class="container-area">
+  <div class="wrapper">
+    <div class="conatiner">
+      <div class="conatiner-left">
+        <h1><span><%= @property_detail.property_name %> </span></h1>
+        <%=  @property_detail.property_description.html_safe %>
+        <%=  @property_detail.property_amenities.html_safe %>
+      </div>
+      <div class="conatiner-right">
+        <div class="map-box">
+          <div id="image-box">
+            <img src="<%= root_path + $dir_property_large + @primary_photo.property_image %>" alt="" />
+          </div>
+          <div class="image-thumb">
+            <ul id="thumbs_list_frame">
+              <% @property_detail.property_images.each do |image| %>
+                <li><a onclick="getlargeImage('<%=image.property_image %>');" href="javascript:void(0);">
+                    <img alt="" src="<%=  root_path + $dir_property_small + image.property_image%>" id="thumb_<%=image.id %>" />
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="conatiner">
+      <div id="map-box" style="width: 100%; height: 350px; margin: 20px auto 0px; position: relative; background-color: rgb(229, 227, 223); overflow: hidden;">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render '/elements/featured_properties'  %>
+
+<script>
+                function getlargeImage(id) {
+                  $('#image-box').html('Loading...');
+                  if (id) {
+                    var data = '<img src="<%= root_url + $dir_property_large %>' + id + '">';
+                    $('#image-box').html(data);
+                    $('#loader').hide();
+                  }
+
+                }
+</script>
+
+
+<script src="//maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script type="text/javascript">
+            var locations = [
+                    ['<div width="1000" height="400"><img src="<%=root_path + $dir_property_small + @primary_photo.property_image %>" width="50"/><h3><%= @property_detail.property_location %></h3> </div>', <%= @property_detail.lattitude %>, <%= @property_detail.longitude %> , 1 ],
+                    
+     ];</script>
+
+<script type="text/javascript">
+
+                    $(document).ready(function () {
+
+            // Define the latitude and longitude positions
+
+            var latitude = parseFloat("<%= @property_detail.lattitude %>"); // Latitude get from above variable
+
+                    var longitude = parseFloat("<%= @property_detail.longitude %>"); // Longitude from same
+
+                    var latlngPos = new google.maps.LatLng(latitude, longitude);
+                    // Set up options for the Google map
+
+                    var myOptions = {
+
+            zoom: 14,
+                    center: latlngPos,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoomControlOptions: true,
+                    zoomControlOptions: {
+
+            style: google.maps.ZoomControlStyle.LARGE
+
+            }
+
+            };
+                    // Define the map
+
+                    map = new google.maps.Map(document.getElementById("map-box"), myOptions);
+                    var map = new google.maps.Map(document.getElementById('map-box'), {
+            zoom: 15,
+                    center: new google.maps.LatLng(43.453998, - 76.517955),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+                    var infowindow = new google.maps.InfoWindow();
+                    var marker, i;
+                    var image = '<%= root_path %>assets/location-pointers.png'
+                    for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                    map: map,
+                    icon:image,
+            });
+                    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+            infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+            }
+            })(marker, i));
+            }
+            // Add the marker
+
+
+
+
+
+            });
+            </script>

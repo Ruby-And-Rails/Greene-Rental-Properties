@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+<%#= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%#= csrf_meta_tags %>
+
+    <title><%= @title.present? ? @title:'Greene Rental Properties' %> </title>
+    <%= favicon_link_tag '/assets/favicon.ico' %>
+
+    <%= stylesheet_link_tag("/assets/style") %>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <%= javascript_include_tag("/assets/jquery-1.9.1.min") %>
+    <%= javascript_include_tag("/assets/common") %>
+    <script>
+      $(document).ready(function() {
+        $(".menu-2").click(function() {
+          $(this).toggleClass("open");
+        });
+        $(".click-2").click(function() {
+          $(".resopnsive-banner-inn").slideToggle();
+        });
+        $(".close-btn").click(function() {
+          $(".resopnsive-banner-inn").slideToggle();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="resopnsive-banner-inn">
+      <div class="wrapper">
+        <div class="mobile-banner">
+          <h2>Looking to Rent?</h2>
+          <a href="#" class="banner-box">Apartments</a>
+          <a href="#" class="banner-box-1">Houses</a>
+          <div class="search-area">
+            <select class="styled-select slate">
+              <option>Select house or apartment</option>
+              <option>Bhubaneswar</option>
+              <option>Cuttack</option>
+              <option>Puri</option>
+            </select>
+            <input type="search" placeholder="Enter number of bed rooms"/>
+            <input type="submit" value="Search"/>
+          </div>
+
+        </div>
+      </div>
+      <%= image_tag('/assets/menu-close-btn.png', :class=>'close-btn') %>
+    </div>
+    <div class="main">
+      <div class="header-area">
+        <div class="wrapper">
+          <div class="header">
+            <div class="header-left">
+              <%=link_to image_tag('/assets/logo.png'), root_path %>
+            </div>
+            <div class="menu">
+              <ul class="menu-box">
+                <li><%=link_to 'Home', root_path, :class=>"active" %></li>
+                <li><%=link_to 'About Us', '/page/about-us' %></li>
+                <li><%=link_to 'Gallery', '/gallery' %></li>
+                <li><%=link_to 'Properties', '/properties' %></li>
+                <li><%=link_to 'Available Rentals', '/page/available-rentals' %></li>
+                <li><%=link_to 'Tenant Documents', '/page/tenant-documents' %></li>
+                <li><%=link_to 'Contact Us', '/contact-us' %></li>
+              </ul>
+              <ul class="responsive_menu">
+                <li class="menu-2"> <i class="line">&nbsp;</i>
+                  <ul>
+                    <li><%=link_to 'Home', root_path, :class=>"active" %></li>
+                    <li><%=link_to 'About Us', '/page/about-us', :class=>'active' %></li>
+                    <li><%=link_to 'Gallery', '/gallery' %></li>
+                    <li><%=link_to 'Properties', root_path %></li>
+                    <li><%=link_to 'Available Rentals', root_path %></li>
+                    <li><%=link_to 'Tenant Documents', root_path %></li>
+                    <li><%=link_to 'Contact Us', '/contact-us' %></li>
+                  </ul>
+
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <%= yield %>
+
+      <div class="footer-area">
+        <div class="wrapper">
+          <div class="footer">
+            <p>&copy; Copyright <%= Time.now.year %>, Greene Rental Properties,All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

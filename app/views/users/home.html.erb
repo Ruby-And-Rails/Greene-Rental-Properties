@@ -1,0 +1,58 @@
+<%= render '/elements/banner'  %>
+<div class="container-area">
+  <div class="wrapper">
+    <div class="conatiner">
+      <div class="conatiner-left">
+        <h1><span><%= @title %> </span></h1>
+        <%= @description.html_safe %>
+      </div>
+      <div class="conatiner-right">
+        <div class="map-box" id="map-box" style="width: 688px; height: 296px; position: relative; background-color: rgb(229, 227, 223); overflow: hidden;">
+          <%= image_tag('/assets/map.jpg') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render '/elements/featured_properties'  %>
+
+
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script type="text/javascript">
+  var locations = [<% i=1
+@properties.each do |prop| %>
+  <% prop.property_images.each do |image| %>
+      ['<div width="1000" height="400"><img src="<%=$dir_property_small+ image.property_image %>" width="50"/> <h3><%= prop.property_location %> </h3> <a href="<%=root_path + 'property/' + prop.unique_id %>">Click here to show more</a></div>', <%= prop.lattitude %>, <%= prop.longitude %>, <%= $i %>],
+  <% end %>
+  <% 
+  i += 1
+  end
+%>];
+    var map = new google.maps.Map(document.getElementById('map-box'), {
+    zoom: 15,
+    center: new google.maps.LatLng(43.453998, -76.517955),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var infowindow = new google.maps.InfoWindow();
+
+  var marker, i;
+  var image = '/assets/location-pointers.png'
+  for (i = 0; i < locations.length; i++) {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      map: map,
+      icon: image,
+    });
+
+    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+      return function() {
+        infowindow.setContent(locations[i][0]);
+        infowindow.open(map, marker);
+
+      }
+    })(marker, i));
+  }
+
+</script>

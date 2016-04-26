@@ -1,0 +1,52 @@
+<%= render '/elements/banner'  %>
+
+<div class="container-area">
+  <div class="wrapper">
+    <div class="conatiner">
+      <div class="inner">
+        <h1>Properties</h1>
+        <div class="property-listing">
+          <% @properties.each do |prop|%>
+              <div class="details_box">
+                <div class="details_holder2">
+                  <div style="overflow: hidden; height: 176px;">
+                    <img width="218" src="<%=root_path + $dir_property_small %>"> 
+                  </div>
+                  <a href="<%=root_path + 'property/' +prop.unique_id %>">View Gallery</a>
+                </div>
+                <div class="details_contain">
+                  <h3><%=prop.property_location%></h3>
+                  <p><%=prop.shortdescription.html_safe %></p><br>
+                  <div class="buttom_wrap">
+                    <div class="view_wrap">
+                      <a href="<%=root_path + 'property/' +prop.unique_id %>">View Details</a></div>
+                    <div class="inquiry_wrap">
+                      <a onclick="hiddenpop('<%=prop.unique_id %>');" id="login-btn1" href="javascript:void(0);">Inquiry</a>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+                <div class="details_avail">
+                  <div class="direction_holder">
+                    <div class="map">
+                      <a href="<%=root_path + 'property/' +prop.unique_id %>">Map</a></div>
+                    <div class="direction">
+                      <a href="<%=root_path + 'property/' +prop.unique_id %>">Direction</a></div>
+                    <div class="gal">
+                      <a href="gallery.php">&nbsp;Main Gallery</a></div>
+                  </div>
+                  <div style="margin-left:11px;" class="type">
+                    <a href="#"><%=prop.property_type==1?'Apartment':'House' %></a></div>
+                </div>
+                <div class="clearfix">
+                </div>
+              </div>
+            <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%= render '/elements/featured_properties'  %>
